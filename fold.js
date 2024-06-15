@@ -1,4 +1,4 @@
-// https://jsfiddle.net/jahroy/Rwr7q/18/
+// Credits: https://jsfiddle.net/jahroy/Rwr7q/18/
 //
 // Folds a string at a specified length, optionally attempting
 // to insert newlines after whitespace characters.
@@ -16,7 +16,7 @@
 // problems... StackOverflow.
 //
 
-function fold(s, n, useSpaces, a) {
+export function fold(s, n, useSpaces, a) {
   a = a || [];
   if (s.length <= n) {
     a.push(s);
@@ -47,5 +47,3 @@ function foldRgx(s, n) {
   var rgx = new RegExp(".{0," + n + "}", "g");
   return s.match(rgx);
 }
-
-module.exports = fold;

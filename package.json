@@ -1,8 +1,9 @@
 {
   "name": "tldev",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Too lazy; dev mode only.",
-  "main": "index.js",
+  "main": "app.js",
+  "type": "module",
   "private": false,
   "readme": "README.md",
   "scripts": {
@@ -24,10 +25,12 @@
     "url": "https://github.com/augiwan/tldev.git"
   },
   "bin": {
-    "tldev": "main.js"
+    "tldev": "app.js"
   },
   "license": "MIT",
   "dependencies": {
+    "clipboardy": "^4.0.0",
+    "dedent-js": "^1.0.1",
     "openai": "^4.51.0",
     "shelljs": "^0.8.5"
   }
