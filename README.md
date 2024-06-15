@@ -23,14 +23,19 @@ When you're ready to commit your changes to git, run this in your project direct
 
 ```
 $ tldev commit
-============================================
-☕️ Here's your freshly brewed commit message:
---------------------------------------------
-Simplify serialize.h's exception handling
+=======================================================================
+✅ tldev / Here's your freshly brewed commit message ☕️
+=======================================================================
 
-Remove the 'state' and 'exceptmask' from serialize.h's stream
-implementations, as well as related methods.
-============================================
+Simplify serialize.h's exception handling
+-----------------------------------------------------------------------
+- Remove the 'state' and 'exceptmask' from serialize.h's stream
+  implementations, as well as related methods.
+- Add 'exceptmask' to the serialize.h's stream implementation.
+
+=======================================================================
+📋 Message also copied to clipboard, just paste!
+=======================================================================
 ```
 
 The first line is the subject and the rest is the body. Feel free to edit it as you please. 
