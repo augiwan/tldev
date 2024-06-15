@@ -1,0 +1,30 @@
+{
+  "name": "tldev",
+  "version": "0.1.0",
+  "description": "Too lazy; dev mode only.",
+  "main": "index.js",
+  "private": false,
+  "readme": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dev",
+    "tool",
+    "cli",
+    "command",
+    "commandline"
+  ],
+  "author": {
+    "name": "Augustus D'Souza",
+    "url": "https://github.com/augiwan"
+  },
+  "bin": {
+    "tldev": "main.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "openai": "^4.51.0",
+    "shelljs": "^0.8.5"
+  }
+}
