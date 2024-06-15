@@ -19,6 +19,10 @@
     "name": "Augustus D'Souza",
     "url": "https://github.com/augiwan"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/augiwan/tldev.git"
+  },
   "bin": {
     "tldev": "main.js"
   },
