@@ -1,6 +1,6 @@
 {
   "name": "tldev",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Too lazy; dev mode only.",
   "main": "index.js",
   "private": false,
