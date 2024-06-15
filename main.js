@@ -4,11 +4,23 @@ var OpenAI = require("openai");
 
 var fold = require("./fold.js");
 
+if (!process.env["OPENAI_API_KEY"]) {
+  console.log(
+    "tldev commit > OPENAI_API_KEY missing, please set it and try again."
+  );
+  process.exit(1);
+}
+
 const openai = new OpenAI({
   // apiKey: process.env["OPENAI_API_KEY"], // This is the default and can be omitted
 });
 
-diff = shell.exec("git --no-pager diff").stdout;
+diff = shell.exec("git --no-pager diff", { silent: true }).stdout;
+
+if (diff.trim() === "") {
+  console.log("tldev commit > No changes detected.");
+  process.exit(1);
+}
 
 prompt = `Here is my current git diff output, write a good concise git commit message.
 
