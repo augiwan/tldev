@@ -8,6 +8,12 @@
 
 ✅ Use `tldev commit` to generate a well written commit message from all your code changes (`git diff`).
 
+```sh
+$ npm i -g tldev
+$ cd path/to/project
+$ tldev commit
+```
+
 ---
 
 ## Commands
