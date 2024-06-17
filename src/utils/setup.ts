@@ -61,7 +61,7 @@ export async function setup(isResetup: boolean = false) {
     ]
 
     const modelAnswer = await select({
-      message: `Select a model from ${tldevDb.data.ai.provider}`,
+      message: `Select a model from ${tldevDb.data.ai.provider.setting}`,
       choices: tldevDb.data.ai.provider.setting === 'openai' ? openAIChoices : groqChoices,
     })
 
