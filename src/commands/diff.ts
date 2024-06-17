@@ -6,6 +6,7 @@ import clipboard from 'clipboardy'
 import {fold} from '../utils/fold.js'
 import ora from 'ora'
 import {setup} from '../utils/setup.js'
+import {tldevDb} from '../utils/db.js'
 
 const IGNORED_FILES = [
   // npm (JS)
@@ -94,7 +95,14 @@ Please respond with the commit message in this JSON format:
 `
     spinner.stop()
     const spinner2 = ora('Brewing your commit message').start()
-    const reply = await runGroqPrompt(prompt, this)
+    let reply
+
+    if (tldevDb.data.ai.provider.setting === 'openai') {
+      reply = await runOpenAIPrompt(prompt, this)
+    } else if (tldevDb.data.ai.provider.setting === 'groq') {
+      reply = await runGroqPrompt(prompt, this)
+    }
+
     spinner2.stop()
 
     if (reply === false) {
