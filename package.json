@@ -1,14 +1,60 @@
 {
   "name": "tldev",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Too lazy; dev mode only.",
-  "main": "app.js",
-  "type": "module",
   "private": false,
   "readme": "README.md",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "tldev": "./bin/run.js"
   },
+  "bugs": "https://github.com/augiwan/tldev/issues",
+  "dependencies": {
+    "@inquirer/prompts": "^5.0.5",
+    "@inquirer/select": "^2.3.5",
+    "@oclif/core": "^4",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5",
+    "clipboardy": "^4.0.0",
+    "groq-sdk": "^0.5.0",
+    "inquirer": "^9.2.23",
+    "lowdb": "^7.0.1",
+    "openai": "^4.51.0",
+    "ora": "^8.0.1",
+    "ospath": "^1.2.2",
+    "shelljs": "^0.8.5"
+  },
+  "devDependencies": {
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^4",
+    "@types/chai": "^4",
+    "@types/inquirer": "^9.0.7",
+    "@types/mocha": "^10",
+    "@types/node": "^18",
+    "@types/ospath": "^1.2.3",
+    "@types/shelljs": "^0.8.15",
+    "chai": "^4",
+    "eslint": "^8",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3",
+    "eslint-config-prettier": "^9",
+    "mocha": "^10",
+    "oclif": "^4",
+    "shx": "^0.3.3",
+    "ts-node": "^10",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "/bin",
+    "/dist",
+    "/oclif.manifest.json"
+  ],
+  "config": {
+    "--no-warnings": true
+  },
+  "homepage": "https://github.com/augiwan/tldev",
   "keywords": [
     "dev",
     "tool",
@@ -20,18 +66,34 @@
     "name": "Augustus D'Souza",
     "url": "https://github.com/augiwan"
   },
+  "main": "dist/index.js",
+  "type": "module",
+  "oclif": {
+    "bin": "tldev",
+    "dirname": "tldev",
+    "commands": "./dist/commands",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "diff": {
+        "description": "Automatically generate a well-written git commit message from your diff"
+      }
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/augiwan/tldev.git"
   },
-  "bin": {
-    "tldev": "app.js"
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "pnpm run lint",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
   },
-  "license": "MIT",
-  "dependencies": {
-    "clipboardy": "^4.0.0",
-    "dedent-js": "^1.0.1",
-    "openai": "^4.51.0",
-    "shelljs": "^0.8.5"
-  }
+  "license": "Apache-2.0",
+  "types": "dist/index.d.ts"
 }
