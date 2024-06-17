@@ -53,12 +53,14 @@ export default class Diff extends Command {
     }).stdout
 
     if (diff.trim() === '') {
+      spinner.stop()
       this.log('✅ tldev diff > No changes detected.')
       process.exit(1)
     }
 
     // Take the first 10,000 characters of the diff in case of large diffs
     if (diff.trim() === '') {
+      spinner.stop()
       this.log('⚠️ tldev diff > Your `git diff` is too large, continuing with partial commit message generation.')
       process.exit(1)
     }
