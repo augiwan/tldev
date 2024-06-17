@@ -90,6 +90,7 @@
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint . --ext .ts",
+    "prepack": "oclif manifest",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
     "test": "mocha --forbid-only \"test/**/*.test.ts\""
