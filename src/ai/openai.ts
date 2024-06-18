@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 import {Command} from '@oclif/core'
 import {tldevDb} from '../utils/db.js'
 
-export async function runOpenAIPrompt(prompt: string, command: Command) {
+export async function runOpenAIPrompt(userPrompt: string, systemPrompt: string, command: Command) {
   if (tldevDb.data.ai.key.openai.setting === '') {
     command.log('tldev commit > OPENAI_API_KEY missing, please set it and try again.')
     return false
@@ -16,11 +16,11 @@ export async function runOpenAIPrompt(prompt: string, command: Command) {
     messages: [
       {
         role: 'system',
-        content: 'You are an experienced software engineer who writes perfect git commit messages.',
+        content: systemPrompt,
       },
       {
         role: 'user',
-        content: prompt,
+        content: userPrompt,
       },
     ],
     model: tldevDb.data.ai.model.openai.setting,

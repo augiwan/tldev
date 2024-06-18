@@ -97,10 +97,12 @@ Please respond with the commit message in this JSON format:
     const spinner2 = ora('Brewing your commit message').start()
     let reply
 
+    const systemPrompt = 'You are an experienced software engineer who writes perfect git commit messages.'
+
     if (tldevDb.data.ai.provider.setting === 'openai') {
-      reply = await runOpenAIPrompt(prompt, this)
+      reply = await runOpenAIPrompt(prompt, systemPrompt, this)
     } else if (tldevDb.data.ai.provider.setting === 'groq') {
-      reply = await runGroqPrompt(prompt, this)
+      reply = await runGroqPrompt(prompt, systemPrompt, this)
     }
 
     spinner2.stop()

@@ -2,7 +2,7 @@ import Groq from 'groq-sdk'
 import {Command} from '@oclif/core'
 import {tldevDb} from '../utils/db.js'
 
-export async function runGroqPrompt(prompt: string, command: Command) {
+export async function runGroqPrompt(userPrompt: string, systemPrompt: string, command: Command) {
   if (tldevDb.data.ai.key.groq.setting === '') {
     command.log('tldev commit > GROQ_API_KEY missing, please set it and try again.')
     return false
@@ -16,11 +16,11 @@ export async function runGroqPrompt(prompt: string, command: Command) {
     messages: [
       {
         role: 'system',
-        content: 'You are an experienced software engineer who writes perfect git commit messages.',
+        content: systemPrompt,
       },
       {
         role: 'user',
-        content: prompt,
+        content: userPrompt,
       },
     ],
     model: tldevDb.data.ai.model.groq.setting,
