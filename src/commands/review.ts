@@ -87,7 +87,7 @@ ${codeContent}
     const tmpobj = tmp.fileSync({keep: true, name: `tldev-review-${uuidv4()}.html`})
     // this.log('Filedescriptor: ', tmpobj.fd)
 
-    const converter = new showdown.Converter()
+    const converter = new showdown.Converter({ghCodeBlocks: true})
     converter.setFlavor('github')
     const markdownContent = converter.makeHtml(reply.feedback)
     // this.log(`Feedback: ${tmpobj.name}`)
@@ -193,12 +193,14 @@ ${codeContent}
 
           <div class="bg-white shadow-md rounded-lg p-6 pt-1">
             <div id="markdown-content" class="prose max-w-none">
-              <!-- Markdown content -->
+              <!-- Rendered HTML content -->
                 ${markdownContent}
             </div>
           </div>
         </div>
       </body>
+      <!-- Original markdown content -->
+      <!-- ${reply.feedback} -->
     </html>`
 
     open(tmpobj.name)
