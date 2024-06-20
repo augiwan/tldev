@@ -3,13 +3,14 @@ import fs from 'fs'
 import open from 'open'
 import showdown from 'showdown'
 import {v4 as uuidv4} from 'uuid'
-import {Args, Command, Flags} from '@oclif/core'
+import {Args, Command} from '@oclif/core'
 import {tldevDb} from '../utils/db.js'
 import {runOpenAIPrompt} from '../ai/openai.js'
 import {runGroqPrompt} from '../ai/groq.js'
 import path from 'path'
 import ora from 'ora'
 import {setup} from '../utils/setup.js'
+import {encode} from 'html-entities'
 import {PROGRAMMING_FILES_MAP} from '../settings/programming.js'
 
 export default class Review extends Command {
@@ -35,7 +36,8 @@ export default class Review extends Command {
 
     // this.log('File: ', path.resolve(args.file))
 
-    if (!Object.keys(PROGRAMMING_FILES_MAP).includes('.' + (args.file.split('.').pop() || ''))) {
+    const fileExt = path.extname(args.file)
+    if (!Object.keys(PROGRAMMING_FILES_MAP).includes(fileExt)) {
       this.log("This doesn't look like a code file. If it is, please raise a GitHub issue to suggest adding support.")
       this.log('https://github.com/augiwan/tldev/issues')
       return
@@ -47,7 +49,7 @@ export default class Review extends Command {
     try {
       codeContent = fs.readFileSync(path.resolve(args.file), 'utf8')
     } catch (error) {
-      console.error(error)
+      this.log(`Failed to read the file: ${error}`)
       return
     }
 
@@ -77,8 +79,8 @@ ${codeContent}
 
     const systemPrompt = `You are an expert senior ${programmingLanguage} developer`
 
-    // console.log(prompt)
-    // console.log(systemPrompt)
+    // this.log(prompt)
+    // this.log(systemPrompt)
 
     if (tldevDb.data.ai.provider.setting === 'openai') {
       reply = await runOpenAIPrompt(prompt, systemPrompt, this)
@@ -90,7 +92,7 @@ ${codeContent}
       return
     }
 
-    // console.log(reply.feedback)
+    // this.log(reply.feedback)
 
     const tmpobj = tmp.fileSync({keep: true, name: `tldev-review-${uuidv4()}.html`})
     // this.log('Filedescriptor: ', tmpobj.fd)
@@ -217,17 +219,12 @@ ${codeContent}
         </div>
       </body>
       <!-- Original markdown content -->
-      <!-- ${reply.feedback} -->
+      <!-- ${encode(reply.feedback, {mode: 'nonAsciiPrintable'})} -->
     </html>`
 
     open(tmpobj.name)
-    fs.writeFile(tmpobj.name, htmlTemplate, (err) => {
-      if (err) {
-        console.error(err)
-      } else {
-        this.log('Done')
-      }
-    })
+    fs.writeFileSync(tmpobj.name, htmlTemplate)
+    // this.log('Done')
 
     spinner.stop()
     const message = [
@@ -236,8 +233,6 @@ ${codeContent}
       `=======================================================================`,
     ].join('\n')
     this.log(message)
-
-    // clipboard.writeSync(reply.commit_message_subject)
 
     // if (flags.replace) {
     //   this.log(`Replacing file contents for: ${args.file}`)
