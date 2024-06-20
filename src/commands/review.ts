@@ -8,6 +8,8 @@ import {tldevDb} from '../utils/db.js'
 import {runOpenAIPrompt} from '../ai/openai.js'
 import {runGroqPrompt} from '../ai/groq.js'
 import path from 'path'
+import ora from 'ora'
+import {setup} from '../utils/setup.js'
 import {PROGRAMMING_FILES_MAP} from '../settings/programming.js'
 
 export default class Review extends Command {
@@ -25,6 +27,10 @@ export default class Review extends Command {
   // }
 
   public async run(): Promise<void> {
+    await setup()
+
+    const spinner = ora('Reviewing your code').start()
+
     const {args, flags} = await this.parse(Review)
 
     // this.log('File: ', path.resolve(args.file))
@@ -56,9 +62,11 @@ export default class Review extends Command {
 
 \`\`\`
 {
-  "feedback": "(Markdown formatted feedback)",
+  "feedback": "(feedback)",
 }
 \`\`\`
+
+NOTE: 'feedback' should be markdown formatted. Don't use '\`\`\`' for non-code text, only use it for code blocks.
 
 Here is the code:
 
@@ -99,7 +107,7 @@ ${codeContent}
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>tldev / Code Review</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/panda-syntax-dark.min.css"
@@ -182,16 +190,25 @@ ${codeContent}
           h6 {
             font-size: 1rem !important;
           }
+
+          #markdown-content > h1,
+          #markdown-content > h2,
+          #markdown-content > h3,
+          #markdown-content > h4,
+          #markdown-content > h5,
+          #markdown-content > h6 {
+            margin-top: 0 !important;
+          }
         </style>
       </head>
       <body class="bg-gray-100 flex max-w-4xl mx-auto">
         <div class="container mx-auto p-4">
           <header class="mb-8 text-center">
             <h1 class="text-4xl font-bold mb-2">tldev / Code Review</h1>
-            <h2 class="text-xl text-gray-600">src/commands/diff.ts</h2>
+            <h2 class="text-xl text-gray-600">${args.file}</h2>
           </header>
 
-          <div class="bg-white shadow-md rounded-lg p-6 pt-1">
+          <div class="bg-white shadow-md rounded-lg p-6">
             <div id="markdown-content" class="prose max-w-none">
               <!-- Rendered HTML content -->
                 ${markdownContent}
@@ -212,6 +229,7 @@ ${codeContent}
       }
     })
 
+    spinner.stop()
     const message = [
       `=======================================================================`,
       `✅ tldev / Code review done, opening... ☕️`,
