@@ -53,27 +53,8 @@ dedent-js dependencies, and mark project as a module
 ```sh-session
 $ npm install -g tldev
 
-$ tldev diff
-=======================================================================
-✅ tldev / Here's your freshly brewed commit message ☕️
-=======================================================================
-
-TLDEV: Changed README.md
------------------------------------------------------------------------
-- Updated README.md to reflect new tldev features
-- Added detailed descriptions of tldev commands
-- Improved plugin management and installation
-
-
-=======================================================================
-📋 Message also copied to clipboard, just paste!
-=======================================================================
-
 $ tldev review src/app.js
-=======================================================================
-✅ tldev / Code review done, opening... ☕️
-=======================================================================
-
+$ tldev diff
 $ tldev help
 ```
 <!-- usagestop -->
