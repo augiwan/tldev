@@ -12,6 +12,7 @@ import ora from 'ora'
 import {setup} from '../utils/setup.js'
 import {encode} from 'html-entities'
 import {PROGRAMMING_FILES_MAP} from '../settings/programming.js'
+import {trackEvent} from '../utils/events.js'
 
 export default class Review extends Command {
   static override args = {
@@ -233,6 +234,8 @@ ${codeContent}
       `=======================================================================`,
     ].join('\n')
     this.log(message)
+
+    await trackEvent('Command Review Run')
 
     // if (flags.replace) {
     //   this.log(`Replacing file contents for: ${args.file}`)

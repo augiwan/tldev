@@ -7,6 +7,7 @@ import {fold} from '../utils/fold.js'
 import ora from 'ora'
 import {setup} from '../utils/setup.js'
 import {tldevDb} from '../utils/db.js'
+import {trackEvent} from '../utils/events.js'
 
 const IGNORED_FILES = [
   // npm (JS)
@@ -163,5 +164,7 @@ Please respond with the commit message in this JSON format:
     clipboard.writeSync(reply.commit_message_subject)
 
     this.log(message)
+
+    await trackEvent('Command Diff Run')
   }
 }

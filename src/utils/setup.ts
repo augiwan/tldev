@@ -1,6 +1,6 @@
-import select, {Separator} from '@inquirer/select'
-import {input} from '@inquirer/prompts'
 import {tldevDb} from './db.js'
+import {input} from '@inquirer/prompts'
+import select, {Separator} from '@inquirer/select'
 
 export async function setup(isResetup: boolean = false) {
   if (tldevDb.data.ai.provider.setting === '' || isResetup) {
